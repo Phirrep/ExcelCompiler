@@ -91,7 +91,8 @@ class bank:
 		with open(filePath, "w") as f:
 			json.dump(self.people, f)
 	def printData(self):
-		print (self)
+		print("Current data:\n")
+		print(self)
 	def __str__(self):
 		i = 1
 		returnStr = ""
