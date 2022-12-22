@@ -22,8 +22,9 @@ def personNode(name, value, date):
 	person["value"] = value
 	person["date"] = date
 	return person
-def getStr(person):
 
+
+def getStr(person):
 	personStr = "%s %s {} %s" % (person["name"], abs(person["value"]), getDate(person["date"]))
 	return personStr.format("profit") if (person["value"] < 0) else personStr.format("buy in")
 
@@ -35,6 +36,9 @@ class bank:
 		self.people.append(person)
 	#squah(person: personNode): void
 	def squash(self, person):
+		if (person["value"] != 0){
+			print ("WARNING! Node is not 0")
+		}
 		self.people.pop(self.search(person))
 	#merge(node1: personNode, node2: personNode): personNode
 	#Returns new node with merged data
