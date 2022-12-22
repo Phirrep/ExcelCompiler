@@ -23,7 +23,6 @@ def personNode(name, value, date):
 	person["date"] = date
 	return person
 def getStr(person):
-
 	personStr = "%s %s {} %s" % (person["name"], abs(person["value"]), getDate(person["date"]))
 	return personStr.format("profit") if (person["value"] < 0) else personStr.format("buy in")
 
@@ -91,6 +90,9 @@ class bank:
 	def exportData(self, filePath):
 		with open(filePath, "w") as f:
 			json.dump(self.people, f)
+	def printData(self):
+		print("Current data:\n")
+		print(self)
 	def __str__(self):
 		i = 1
 		returnStr = ""

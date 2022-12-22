@@ -18,6 +18,8 @@ def interpretCommand(command, input1=0, input2=0):
 		fileDay = input("Enter day: ")
 		fileYear = input("Enter year: ")
 		bank.importSheet(data.dateNode(fileMonth, fileDay, fileYear), filePath)
+	elif (command == "view_data"):
+		bank.printData()
 	elif (command == "exit"):
 		print("Exiting script...\n")
 		sys.exit()
