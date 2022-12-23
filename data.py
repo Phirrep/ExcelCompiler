@@ -50,17 +50,19 @@ class bank:
 	#Returns new node with merged data
 	def merge(self, node1, node2):
 		if (node1["name"] != node2["name"]):
-			print ("WARNING! Names do NOT match")
+			print ("WARNING! Names do NOT match: %s and %s" % (node1["name"], node2["name"]))
+			if (not getConfirmation()):
+				return
 		writeLog("Merging node %s and %s...\n" % (getStr(node1), getStr(node2)))
 		try:
 			writeLog("\tCreating new node...\n")
 			newNode = personNode(node1["name"], node1["value"]+node2["value"], getRecentDate(node1["date"], node2["date"]))
 			writeLog("\tNew node created: %s\n" % getStr(newNode))
-			self.squah(node1)
-			self.squah(node2)
-			writeLog("\tData modification successful! Exporting data...\n")
+			self.squash(node1)
+			self.squash(node2)
+			self.pushNode(newNode)
 		except Exception as e:
-			writeLog("\tError in squashing nodes: %s\n" % e)
+			writeLog("\tError in merging nodes: %s\n" % e)
 	#search(node: personNode): int
 	#Method searches peopleNode[] for the node and returns its index
 	def search(self, node):
@@ -116,6 +118,8 @@ class bank:
 			self.squash(self.people[int(number)])
 		except Exception as e:
 			writeLog("\tError in removing data: %s\n" % e)
+	def mergeData(self, n1, n2):
+		self.merge(self.people[int(n1)], self.people[int(n2)])
 	def printData(self):
 		print("Current data:")
 		print(self)
