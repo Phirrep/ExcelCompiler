@@ -37,21 +37,24 @@ class bank:
 		self.people.append(person)
 	#squah(person: personNode): void
 	def squash(self, person):
-		if (person["value"] != 0):
-			print ("WARNING! Node is not 0")
-			if (not getConfirmation()):
-				return
-		writeLog("\tSquashing node: %s\n" % getStr(person))
-		self.people.pop(self.search(person))
+		try:
+			if (person["value"] != 0):
+				print ("WARNING! Node is not 0")
+				if (not getConfirmation()):
+					return
+			writeLog("\tSquashing node: %s\n" % getStr(person))
+			self.people.pop(self.search(person))
+		except Exception as e:
+			writeLog("\tError in squashing node: %s\n" % e)
 	#merge(node1: personNode, node2: personNode): personNode
 	#Returns new node with merged data
 	def merge(self, node1, node2):
-		if (node1.name != node2.name):
+		if (node1["name"] != node2["name"]):
 			print ("WARNING! Names do NOT match")
 		writeLog("Merging node %s and %s...\n" % (getStr(node1), getStr(node2)))
 		try:
 			writeLog("\tCreating new node...\n")
-			newNode = personNode(node1.name, node1.value+node2.value, getRecentDate(node1.date, node2.date))
+			newNode = personNode(node1["name"], node1["value"]+node2["value"], getRecentDate(node1["date"], node2["date"]))
 			writeLog("\tNew node created: %s\n" % getStr(newNode))
 			self.squah(node1)
 			self.squah(node2)
@@ -61,9 +64,9 @@ class bank:
 	#search(node: personNode): int
 	#Method searches peopleNode[] for the node and returns its index
 	def search(self, node):
-		match = lambda x: (x.name == node.name) and (x.date == node.date) and (x.value == node.value)
+		match = lambda x: (x["name"] == node["name"]) and (x["date"] == node["date"]) and (x["value"] == node["value"])
 		for i in range(len(self.people)):
-			if (match(i)):
+			if (match(self.people[i])):
 				return i
 	#importSheet(date: date, filePath: str): void
 	def importSheet(self, date, filePath):
@@ -107,6 +110,12 @@ class bank:
 		person = personNode(name, value, date)
 		writeLog("Adding new data...\n")
 		self.pushNode(person)
+	def removeData(self, number):
+		try:
+			writeLog("Removing data...\n")
+			self.squash(self.people[int(number)])
+		except Exception as e:
+			writeLog("\tError in removing data: %s\n" % e)
 	def printData(self):
 		print("Current data:")
 		print(self)
@@ -137,8 +146,8 @@ def writeLog(message):
 		f.write("%s> %s" % (datetime.datetime.now(), message))
 
 #viewLog(filePath: str): void
-def printLog(filePath):
-	with open(filePath, "r") as f:
+def printLog():
+	with open(logPath, "r") as f:
 		print(f.read())
 
 def getConfirmation():

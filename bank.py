@@ -28,6 +28,13 @@ def interpretCommand(command, input1=0, input2=0):
 		day = input("Enter day: ")
 		year = input("Enter year: ")
 		bank.addData(name, value, data.dateNode(month, day, year))
+	elif (command == "remove_data"):
+		interpretCommand("view_data")
+		print("%s. Exit" % (len(bank.people)+1))
+		index = int(input("Select a person to remove: "))
+		if (index == len(bank.people) + 1):
+			return
+		bank.removeData(index-1)
 	elif (command == "exit"):
 		print("Exiting script...\n")
 		sys.exit()
