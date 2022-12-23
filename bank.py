@@ -5,6 +5,7 @@ def interactiveMode():
 	while (True):
 		command = input("Enter a command: ")
 		interpretCommand(command)
+		bank.exportData(data.dataPath)
 
 def interpretCommand(command, input1=0, input2=0):
 	if (command == "help"):
@@ -18,6 +19,15 @@ def interpretCommand(command, input1=0, input2=0):
 		fileDay = input("Enter day: ")
 		fileYear = input("Enter year: ")
 		bank.importSheet(data.dateNode(fileMonth, fileDay, fileYear), filePath)
+	elif (command == "view_data"):
+		bank.printData()
+	elif (command == "add_data"):
+		name = input("Enter person's name: ")
+		value = input("Enter person's value: ")
+		month = input("Enter month: ")
+		day = input("Enter day: ")
+		year = input("Enter year: ")
+		bank.addData(name, value, data.dateNode(month, day, year))
 	elif (command == "exit"):
 		print("Exiting script...\n")
 		sys.exit()
