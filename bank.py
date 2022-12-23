@@ -21,6 +21,15 @@ def interpretCommand(command, input1=0, input2=0):
 		bank.importSheet(data.dateNode(fileMonth, fileDay, fileYear), filePath)
 	elif (command == "view_data"):
 		bank.printData()
+	elif (command == "merge_data"):
+		showOptions()
+		index1 = int(input("Select first person to merge: "))
+		if (index1 == len(bank.people) + 1):
+			return
+		index2 = int(input("Select second person to merge: "))
+		if (index2 == len(bank.people) + 1):
+			return
+		bank.mergeData(index1-1, index2-1)
 	elif (command == "add_data"):
 		name = input("Enter person's name: ")
 		value = input("Enter person's value: ")
@@ -29,8 +38,7 @@ def interpretCommand(command, input1=0, input2=0):
 		year = input("Enter year: ")
 		bank.addData(name, value, data.dateNode(month, day, year))
 	elif (command == "remove_data"):
-		interpretCommand("view_data")
-		print("%s. Exit" % (len(bank.people)+1))
+		showOptions()
 		index = int(input("Select a person to remove: "))
 		if (index == len(bank.people) + 1):
 			return
@@ -40,6 +48,10 @@ def interpretCommand(command, input1=0, input2=0):
 		sys.exit()
 	else:
 		print("Invalid command\n")
+
+def showOptions():
+	interpretCommand("view_data")
+	print("%s. Exit" % (len(bank.people)+1))
 
 #interpretFlag(a: str[], i: int): void
 def interpretFlag(a, i):
