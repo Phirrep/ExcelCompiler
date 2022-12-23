@@ -38,10 +38,6 @@ class bank:
 	#squah(person: personNode): void
 	def squash(self, person):
 		try:
-			if (person["value"] != 0):
-				print ("WARNING! Node is not 0")
-				if (not getConfirmation()):
-					return
 			writeLog("\tSquashing node: %s\n" % getStr(person))
 			self.people.pop(self.search(person))
 		except Exception as e:
@@ -114,8 +110,13 @@ class bank:
 		self.pushNode(person)
 	def removeData(self, number):
 		try:
-			writeLog("Removing data...\n")
-			self.squash(self.people[int(number)])
+			person = self.people[int(number)]
+			writeLog("Removing data %s...\n" % getStr(person))
+			if (person["value"] != 0):
+				print ("\tWARNING! Node is not 0")
+				if (not getConfirmation()):
+					return
+			self.squash(person)
 		except Exception as e:
 			writeLog("\tError in removing data: %s\n" % e)
 	def mergeData(self, n1, n2):
@@ -155,7 +156,7 @@ def printLog():
 		print(f.read())
 
 def getConfirmation():
-	answer = input("Are you sure? Y/N: ")
+	answer = input("\tAre you sure? Y/N: ")
 	if (answer.lower() == "y"):
 		return True
 	else:
