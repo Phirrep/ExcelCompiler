@@ -90,8 +90,11 @@ class bank:
 	def exportData(self, filePath):
 		with open(filePath, "w") as f:
 			json.dump(self.people, f)
+	#Adds data node given inputs
+	def addData(self, name, value, date):
+		self.pushNode(personNode(name, value, date))
 	def printData(self):
-		print("Current data:\n")
+		print("Current data:")
 		print(self)
 	def __str__(self):
 		i = 1
