@@ -31,18 +31,27 @@ class bank:
 		self.people = []
 	#pushNode(person: personNode): void
 	def pushNode(self, person):
+		writeLog("\tImporting %s...\n" % getStr(person))
 		self.people.append(person)
 	#squah(person: personNode): void
 	def squash(self, person):
+		writeLog("\tSquashing node: %s\n" % getStr(person))
 		self.people.pop(self.search(person))
 	#merge(node1: personNode, node2: personNode): personNode
 	#Returns new node with merged data
 	def merge(self, node1, node2):
 		if (node1.name != node2.name):
 			print ("WARNING! Names do NOT match")
-		newNode = personNode(node1.name, node1.value+node2.value, getRecentDate(node1.date, node2.date))
-		self.squah(node1)
-		self.squah(node2)
+		writeLog("Merging node %s and %s...\n" % (getStr(node1), getStr(node2)))
+		try:
+			writeLog("\tCreating new node...\n")
+			newNode = personNode(node1.name, node1.value+node2.value, getRecentDate(node1.date, node2.date))
+			writeLog("\tNew node created: %s\n" % getStr(newNode))
+			self.squah(node1)
+			self.squah(node2)
+			writeLog("\tData modification successful! Exporting data...\n")
+		except Exception as e:
+			writeLog("\tError in squashing nodes: %s\n" % e)
 	#search(node: personNode): int
 	#Method searches peopleNode[] for the node and returns its index
 	def search(self, node):
@@ -53,7 +62,7 @@ class bank:
 	#importSheet(date: date, filePath: str): void
 	def importSheet(self, date, filePath):
 		try:
-			writeLog(logPath, "Importing data from %s (%s)\n" % (getDate(date), filePath))
+			writeLog("Importing data from %s (%s)\n" % (getDate(date), filePath))
 			wb = load_workbook(filename = filePath, data_only=True)
 			sheet = wb["Sheet1"]
 			valueColumn = 0
@@ -74,14 +83,11 @@ class bank:
 				currName = sheet["a%s" % i].value
 				currValue = sheet["%s%s" % (valueColumn, i)].value
 				person = personNode(currName, currValue, date)
-				writeLog(logPath, "\tImporting %s...\n" % getStr(person))
 				self.pushNode(person)
 				i = i+1
-			writeLog(logPath, "\tImport sucessful! Exporting data to data.json\n")
-			self.exportData(dataPath)
+			writeLog("\tImport sucessful! Exporting data to data.json\n")
 		except Exception as e:
-			print ("Error loading in the workbook: %s\n" % e)
-			writeLog(logPath, "\t%s" % e)
+			writeLog("\tError loading in the workbook: %s\n" % e)
 	#Imports data from json file into self.people
 	def importData(self, filePath):
 		with open(filePath, "r") as f:
@@ -92,7 +98,9 @@ class bank:
 			json.dump(self.people, f)
 	#Adds data node given inputs
 	def addData(self, name, value, date):
-		self.pushNode(personNode(name, value, date))
+		person = personNode(name, value, date)
+		writeLog("Adding new data...\n")
+		self.pushNode(person)
 	def printData(self):
 		print("Current data:")
 		print(self)
@@ -117,9 +125,9 @@ def getRecentDate(date1, date2):
 		return date1
 
 #logData(filePath: str, message: str): void
-def writeLog(filePath, message):
-	print(message)
-	with open(filePath, "a") as f:
+def writeLog(message):
+	print(message.replace("\n", ""))
+	with open(logPath, "a") as f:
 		f.write("%s> %s" % (datetime.datetime.now(), message))
 
 #viewLog(filePath: str): void
@@ -127,3 +135,9 @@ def printLog(filePath):
 	with open(filePath, "r") as f:
 		print(f.read())
 
+def getConfirmation():
+	answer = input("Are you sure? Y/N: ")
+	if (answer.lower() == "y"):
+		return True
+	else:
+		return False
