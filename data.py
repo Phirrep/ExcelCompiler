@@ -97,7 +97,7 @@ class bank:
 		i = 1
 		returnStr = ""
 		for person in self.people:
-			returnStr += ("%s. %s\n" % (i, person))
+			returnStr += ("%s. %s\n" % (i, getStr(person)))
 			i = i+1
 		return returnStr
 
