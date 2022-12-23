@@ -9,9 +9,9 @@ dataPath = "logs/data.json"
 #Positive value = buy in
 def dateNode(month, day, year):
 	date = {}
-	date["month"] = month
-	date["day"] = day
-	date["year"] = year
+	date["month"] = int(month)
+	date["day"] = int(day)
+	date["year"] = int(year)
 	return date
 def getDate(date):
 	return "%s/%s/%s" % (date["month"], date["day"], date["year"])
@@ -19,7 +19,7 @@ def getDate(date):
 def personNode(name, value, date):
 	person = {}
 	person["name"] = name
-	person["value"] = value
+	person["value"] = int(value)
 	person["date"] = date
 	return person
 def getStr(person):
@@ -90,8 +90,11 @@ class bank:
 	def exportData(self, filePath):
 		with open(filePath, "w") as f:
 			json.dump(self.people, f)
+	#Adds data node given inputs
+	def addData(self, name, value, date):
+		self.pushNode(personNode(name, value, date))
 	def printData(self):
-		print("Current data:\n")
+		print("Current data:")
 		print(self)
 	def __str__(self):
 		i = 1
