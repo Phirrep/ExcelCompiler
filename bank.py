@@ -5,6 +5,7 @@ def interactiveMode():
 	while (True):
 		command = input("Enter a command: ")
 		interpretCommand(command)
+		bank.exportData(data.dataPath)
 
 def interpretCommand(command, input1=0, input2=0):
 	if (command == "help"):
