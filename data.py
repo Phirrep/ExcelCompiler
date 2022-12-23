@@ -45,14 +45,22 @@ class bank:
 	#merge(node1: personNode, node2: personNode): personNode
 	#Returns new node with merged data
 	def merge(self, node1, node2):
-		if (node1["name"] != node2["name"]):
-			print ("WARNING! Names do NOT match: %s and %s" % (node1["name"], node2["name"]))
-			if (not getConfirmation()):
-				return
-		writeLog("Merging node %s and %s...\n" % (getStr(node1), getStr(node2)))
 		try:
+			name = node1["name"]
+			if (node1["name"] != node2["name"]):
+				print ("WARNING! Names do NOT match: %s and %s" % (node1["name"], node2["name"]))
+				if (not getConfirmation()):
+					return
+				print("1. %s" % node1["name"])
+				print("2. %s" % node2["name"])
+				print("3. Exit")
+				choice = input("Choose new name (default is %s): " % node1["name"])
+				if (int(choice) == 3):
+					return
+				name = node2["name"] if int(choice) == 2 else node1["name"]
+			writeLog("Merging node %s and %s...\n" % (getStr(node1), getStr(node2)))
 			writeLog("\tCreating new node...\n")
-			newNode = personNode(node1["name"], node1["value"]+node2["value"], getRecentDate(node1["date"], node2["date"]))
+			newNode = personNode(name, node1["value"]+node2["value"], getRecentDate(node1["date"], node2["date"]))
 			writeLog("\tNew node created: %s\n" % getStr(newNode))
 			self.squash(node1)
 			self.squash(node2)
