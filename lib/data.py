@@ -1,6 +1,8 @@
 from openpyxl import load_workbook
+import os
 import json
 import datetime
+import re
 
 logPath = "logs/log.txt"
 dataPath = "logs/data.json"
@@ -103,6 +105,18 @@ class bank:
 			writeLog("\tImport sucessful! Exporting data to data.json\n")
 		except Exception as e:
 			writeLog("\tError loading in the workbook: %s\n" % e)
+	def importSheets(self, date, directoryPath):
+		excelCheck = re.compile(r"*.xlsx")
+		dateCheck = re.compile(r"{1,2}\d_{1,2}\d_{4}\d")
+		for fileName in os.scandir(directoryPath):
+			if (excelCheck.search(fileName) != None):
+				currDate = dateCheck.search(fileName)
+				if (currDate != None):
+					self.importSheet(date, fileName.path)
+				else:
+					#TODO implement string partitioner
+					return
+
 	#Imports data from json file into self.people
 	def importData(self, filePath):
 		with open(filePath, "r") as f:
