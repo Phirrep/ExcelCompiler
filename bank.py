@@ -1,4 +1,4 @@
-import data
+import lib.data as data
 import sys
 
 def interactiveMode():
