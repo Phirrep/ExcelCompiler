@@ -15,6 +15,7 @@ def interpretCommand(command, input1=0, input2=0):
 		print("- exit: Exits the script safely")
 		print("- help: Displays the different commands that can be used")
 		print("- import_sheet: Imports an excel sheet given the file path and date")
+		print("- import_sheets: Imports multiple excel sheets, labels them based on the date they get assigned")
 		print("- merge_data: Merges 2 nodes together from a given list")
 		print("- remove_data: Removes a node from a given list")
 		print("- view_data: Prints out the current data")
@@ -27,6 +28,12 @@ def interpretCommand(command, input1=0, input2=0):
 		fileDay = input("Enter day: ")
 		fileYear = input("Enter year: ")
 		bank.importSheet(data.dateNode(fileMonth, fileDay, fileYear), filePath)
+	elif (command == "import_sheets"):
+		files = filedialog.askopenfilenames()
+		fileMonth = input("Enter month: ")
+		fileDay = input("Enter day: ")
+		fileYear = input("Enter year: ")
+		bank.importSheets(data.dateNode(fileMonth, fileDay, fileYear), files)
 	elif (command == "view_data"):
 		bank.printData()
 	elif (command == "merge_data"):
