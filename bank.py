@@ -10,13 +10,13 @@ def interactiveMode():
 def interpretCommand(command, input1=0, input2=0):
 	if (command == "help"):
 		print("Here's a list of the current implemented commands: ")
-		print("\tview_log: Prints out the log")
-		print("\timport_sheet: Imports an excel sheet given the file path and date")
-		print("\tview_data: Prints out the current data")
-		print("\tmerge_data: Merges 2 nodes together from a given list")
 		print("\tadd_data: Adds a new node given a name, value, and date")
-		print("\tremove_data: Removes a node from a given list")
 		print("\texit: Exits the script safely")
+		print("\timport_sheet: Imports an excel sheet given the file path and date")
+		print("\tmerge_data: Merges 2 nodes together from a given list")
+		print("\tremove_data: Removes a node from a given list")
+		print("\tview_data: Prints out the current data")
+		print("\tview_log: Prints out the log")
 	elif (command == "view_log"):
 		data.printLog()
 	elif (command == "import_sheet"):
