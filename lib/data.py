@@ -1,11 +1,21 @@
 from openpyxl import load_workbook
-import os
+from configparser import ConfigParser as cp
 import json
 import datetime
-import re
 
-logPath = "logs/log.txt"
-dataPath = "logs/data.json"
+config = cp()
+config.read_file(open("config.cfg"))
+
+logPath = config.get("Data Path", "log-path", raw=True)
+dataPath = config.get("Data Path", "data-path", raw=True)
+
+column1 = config.get("Column Selection", "Column1", raw=True)
+column2 = config.get("Column Selection", "Column2", raw=True)
+
+stringFormat = config.get("Format", "string-format", raw=True)
+positiveFormat = config.get("Format", "positive-format", raw=True)
+negativeFormat = config.get("Format", "negative-format", raw=True)
+valueFormat = config.get("Format", "value-format", raw=True)
 
 #Negative value = profit
 #Positive value = buy in
@@ -27,8 +37,8 @@ def personNode(name, value, date):
 
 
 def getStr(person):
-	personStr = "%s %s {} %s" % (person["name"], abs(person["value"]), getDate(person["date"]))
-	return personStr.format("profit") if (person["value"] < 0) else personStr.format("buy in")
+	personStr = stringFormat % (person["name"], abs(person["value"]), getDate(person["date"]))
+	return personStr.format(positiveFormat) if (person["value"] < 0) else personStr.format(negativeFormat)
 
 class bank:
 	def __init__(self):
@@ -86,13 +96,13 @@ class bank:
 			for i in range(26):
 				if (type(sheet["%s1" % chr(i+97)].value) != type("str")):
 					continue
-				elif (sheet["%s1" % chr(i+97)].value.lower() == "value"):
+				elif (sheet["%s1" % chr(i+97)].value.lower() == column2.lower()):
 					valueColumn = chr(i+97)
 					break
 			if (valueColumn == 0):
-				raise Exception("No Value column found\n")
-			if (sheet["a1"].value.lower() != "name"):
-				raise Exception("Name column isn't column A\n")
+				raise Exception("No %s column found\n" % column2)
+			if (sheet["a1"].value.lower() != column1.lower()):
+				raise Exception("%s column isn't column A\n" % column1) 
 			i = 2
 			currName = ""
 			currValue = 0
@@ -102,7 +112,7 @@ class bank:
 				person = personNode(currName, currValue, date)
 				self.pushNode(person)
 				i = i+1
-			writeLog("\tImport sucessful! Exporting data to data.json\n")
+			writeLog("\tImport sucessful! Exporting data to %s\n" % dataPath)
 		except Exception as e:
 			writeLog("\tError loading in the workbook: %s\n" % e)
 	def importSheets(self, date, files):
