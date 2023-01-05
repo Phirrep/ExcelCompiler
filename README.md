@@ -4,6 +4,12 @@ The program works by importing excel sheets via commands fed to the program, and
 The program writes down names in the Name column and values in the Value column, which allows the program to make
 data comparisons.
 
+To run the program, type "python bank.py" in the command prompt
+
+Requirements:
+- Python
+- openpyxl package
+
 Here's a list of the current implemented commands:
 - add_data: Adds a new node given a name, value, and date
 - exit: Exits the script safely
