@@ -1,3 +1,4 @@
+from tkinter import filedialog
 import lib.data as data
 import sys
 
@@ -21,7 +22,7 @@ def interpretCommand(command, input1=0, input2=0):
 	elif (command == "view_log"):
 		data.printLog()
 	elif (command == "import_sheet"):
-		filePath = input("Enter path to sheet to input: ")
+		filePath = filedialog.askopenfilenames()[0]
 		fileMonth = input("Enter month: ")
 		fileDay = input("Enter day: ")
 		fileYear = input("Enter year: ")
