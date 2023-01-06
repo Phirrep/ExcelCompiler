@@ -99,11 +99,10 @@ def interpretFlag(a, i):
 		print ("Invalid flag: %s" % a[i])
 	interpretFlag(a, i+1)
 
-		
 
 if __name__ == "__main__":
 	bank = data.bank()
-	bank.importData("logs/data.json")
+	bank.importData(data.dataPath)
 	if (len(sys.argv) <= 1):
 		interactiveMode()
 	else:
