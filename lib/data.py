@@ -54,6 +54,13 @@ class bank:
 			self.people.pop(self.search(person))
 		except Exception as e:
 			writeLog("\tError in squashing node: %s\n" % e)
+	def squash0(self):
+		i = 0
+		while (i < len(self.people)):
+			if (self.people[i]["value"] == 0):
+				self.squash(self.people[i])
+				i = i-1
+			i = i+1
 	#merge(node1: personNode, node2: personNode): personNode
 	#Returns new node with merged data
 	def merge(self, node1, node2):
