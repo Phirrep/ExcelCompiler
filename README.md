@@ -18,6 +18,7 @@ Here's a list of the current implemented commands:
 - import_sheet: Imports an excel sheet given the file path and date
 - import_sheets: Imports multiple excel sheets, labels them based on the date they get assigned
 - merge_data: Merges 2 nodes together from a given list
+- squash0: Removes all nodes with a value of 0
 - remove_data: Removes a node from a given list
 - view_data: Prints out the current data
 - view_log: Prints out the log

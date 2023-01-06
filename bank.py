@@ -19,6 +19,7 @@ def interpretCommand(command, input1=0, input2=0):
 		print("- import_sheets: Imports multiple excel sheets, labels them based on the date they get assigned")
 		print("- merge_data: Merges 2 nodes together from a given list")
 		print("- remove_data: Removes a node from a given list")
+		print("- squash0: Removes all nodes with a value of 0")
 		print("- view_data: Prints out the current data")
 		print("- view_log: Prints out the log")
 	elif (command == "view_log"):
@@ -61,6 +62,8 @@ def interpretCommand(command, input1=0, input2=0):
 		if (index == len(bank.people) + 1):
 			return
 		bank.removeData(index-1)
+	elif (command == "squash0"):
+		bank.squash0()
 	elif (command == "exit"):
 		print("Exiting script...\n")
 		sys.exit()
