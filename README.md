@@ -12,6 +12,7 @@ Requirements:
 
 Here's a list of the current implemented commands:
 - add_data: Adds a new node given a name, value, and date
+- auto_merge_data: Merges all the data that has the same name
 - exit: Exits the script safely
 - help: Displays the different commands that can be used
 - import_sheet: Imports an excel sheet given the file path and date

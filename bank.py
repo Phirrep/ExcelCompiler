@@ -12,6 +12,7 @@ def interpretCommand(command, input1=0, input2=0):
 	if (command == "help"):
 		print("Here's a list of the current implemented commands: ")
 		print("- add_data: Adds a new node given a name, value, and date")
+		print("- auto_merge_data: Merges all the data that has the same name")
 		print("- exit: Exits the script safely")
 		print("- help: Displays the different commands that can be used")
 		print("- import_sheet: Imports an excel sheet given the file path and date")
