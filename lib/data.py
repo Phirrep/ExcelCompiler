@@ -38,7 +38,7 @@ def personNode(name, value, date):
 
 def getStr(person):
 	personStr = stringFormat % (person["name"], abs(person["value"]), getDate(person["date"]))
-	return personStr.format(positiveFormat) if (person["value"] < 0) else personStr.format(negativeFormat)
+	return personStr.format(negativeFormat) if (person["value"] < 0) else personStr.format(positiveFormat)
 
 class bank:
 	def __init__(self):
@@ -77,13 +77,14 @@ class bank:
 			self.squash(node1)
 			self.squash(node2)
 			self.pushNode(newNode)
+			return newNode
 		except Exception as e:
 			writeLog("\tError in merging nodes: %s\n" % e)
 	#search(node: personNode): int
 	#Method searches peopleNode[] for the node and returns its index
-	def search(self, node):
+	def search(self, node, startIndex=0):
 		match = lambda x: (x["name"] == node["name"]) and (x["date"] == node["date"]) and (x["value"] == node["value"])
-		for i in range(len(self.people)):
+		for i in range(startIndex, len(self.people)):
 			if (match(self.people[i])):
 				return i
 	#importSheet(date: date, filePath: str): void
@@ -144,7 +145,26 @@ class bank:
 		except Exception as e:
 			writeLog("\tError in removing data: %s\n" % e)
 	def mergeData(self, n1, n2):
-		self.merge(self.people[int(n1)], self.people[int(n2)])
+		return self.merge(self.people[int(n1)], self.people[int(n2)])
+	def autoMergeData(self):
+		try:
+			writeLog("Auto merging current data...\n")
+			partitions = {}
+			for person in self.people:
+				if (not person["name"] in partitions):
+					partitions[person["name"]] = []
+				partitions[person["name"]].append(person)
+			for name in partitions:
+				i = 0
+				j = 1
+				while (len(partitions[name]) > j):
+					index1 = self.search(partitions[name][i])
+					index2 = self.search(partitions[name][j], startIndex=index1+1)
+					partitions[name].append(self.mergeData(index1, index2))
+					i = j+1
+					j = i+1
+		except Exception as e:
+			writeLog("\tError in auto merge of data: %s\n" % e)
 	def printData(self):
 		print("Current data:")
 		print(self)
