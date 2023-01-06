@@ -10,18 +10,18 @@ def interactiveMode():
 
 def interpretCommand(command, input1=0, input2=0):
 	if (command == "help"):
-		print("Here's a list of the current implemented commands: ")
-		print("- add_data: Adds a new node given a name, value, and date")
-		print("- auto_merge_data: Merges all the data that has the same name")
+		print("Here's a list of the current implemented commands and their respective flags: ")
+		print("- add_data (--add_data): Adds a new node given a name, value, and date")
+		print("- auto_merge_data (--auto_merge_data): Merges all the data that has the same name")
 		print("- exit: Exits the script safely")
-		print("- help: Displays the different commands that can be used")
-		print("- import_sheet: Imports an excel sheet given the file path and date")
-		print("- import_sheets: Imports multiple excel sheets, labels them based on the date they get assigned")
-		print("- merge_data: Merges 2 nodes together from a given list")
-		print("- remove_data: Removes a node from a given list")
-		print("- squash0: Removes all nodes with a value of 0")
-		print("- view_data: Prints out the current data")
-		print("- view_log: Prints out the log")
+		print("- help (--help): Displays the different commands that can be used")
+		print("- import_sheet (--import_sheet): Imports an excel sheet given the file path and date")
+		print("- import_sheets (--import_sheets): Imports multiple excel sheets, labels them based on the date they get assigned")
+		print("- merge_data (--merge_data): Merges 2 nodes together from a given list")
+		print("- remove_data (--remove_data): Removes a node from a given list")
+		print("- squash0 (--squash0): Removes all nodes with a value of 0")
+		print("- view_data (--view_data): Prints out the current data")
+		print("- view_log (--view_log): Prints out the log")
 	elif (command == "view_log"):
 		data.printLog()
 	elif (command == "import_sheet"):
@@ -74,11 +74,32 @@ def showOptions():
 	interpretCommand("view_data")
 	print("%s. Exit" % (len(bank.people)+1))
 
+def flagHelper(a, i, x, y):
+	if (a[i] == x):
+		interpretCommand(y)
+		bank.exportData(data.dataPath)
+		return True
+
 #interpretFlag(a: str[], i: int): void
 def interpretFlag(a, i):
-	verifyArgs = True
-	if (a[i] == "--view_log"):
-		interpretCommand("view_log")
+	if (i > len(a) - 1):
+		return
+	verifyFlag = False
+	verifyFlag = verifyFlag or flagHelper(a, i, "--view_data", "view_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--view_log", "view_log")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--import_sheet", "import_sheet")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--import_sheets", "import_sheets")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--add_data", "add_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--auto_merge_data", "auto_merge_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--squash0", "squash0")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--merge_data", "merge_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--help", "help")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--remove_data", "remove_data")
+	if (not verifyFlag):
+		print ("Invalid flag: %s" % a[i])
+	interpretFlag(a, i+1)
+
+		
 
 if __name__ == "__main__":
 	bank = data.bank()
