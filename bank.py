@@ -45,6 +45,8 @@ def interpretCommand(command, input1=0, input2=0):
 		if (index2 == len(bank.people) + 1):
 			return
 		bank.mergeData(index1-1, index2-1)
+	elif (command == "auto_merge_data"):
+		bank.autoMergeData()
 	elif (command == "add_data"):
 		name = input("Enter person's name: ")
 		value = input("Enter person's value: ")
