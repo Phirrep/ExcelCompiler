@@ -19,6 +19,7 @@ def interpretCommand(command, input1=0, input2=0):
 		print("- import_sheets (--import_sheets): Imports multiple excel sheets, labels them based on the date they get assigned")
 		print("- merge_data (--merge_data): Merges 2 nodes together from a given list")
 		print("- remove_data (--remove_data): Removes a node from a given list")
+		print("- sort_data (--sort_data): Sorts the data in ascending or descending order")
 		print("- squash0 (--squash0): Removes all nodes with a value of 0")
 		print("- view_data (--view_data): Prints out the current data")
 		print("- view_log (--view_log): Prints out the log")
@@ -64,6 +65,37 @@ def interpretCommand(command, input1=0, input2=0):
 		bank.removeData(index-1)
 	elif (command == "squash0"):
 		bank.squash0()
+	elif (command == "sort_data"):
+		print("How do you want to sort your data?")
+		print("1. %s" % data.column1)
+		print("2. %s" % data.column2)
+		print("3. Date")
+		selection1 = int(input("Enter an option: "))
+
+		if (selection1 == 1 or selection1 == 2):
+			print("Which order to you want to sort your data?")
+			print("1. Ascending (low to high)")
+			print("2. Descending (high to low)")
+			selection2 = int(input("Enter an option: "))
+			if (selection2 == 1):
+				bank.sortData(selection1, selection2)
+			elif (selection2 == 2):
+				bank.sortData(selection1, selection2)
+			else:
+				print("Invalid option")
+		elif (selection1 == 3):
+			print("Most recent or least recent?")
+			print("1. Most recent to least recent")
+			print("2. Least recent to most recent")
+			selection2 = int(input("Enter an option: "))
+			if (selection2 == 1):
+				bank.sortData(selection1, selection2)
+			elif (selection2 == 2):
+				bank.sortData(selection1, selection2)
+			else:
+				print("Invalid option")
+		else:
+			print("Invalid option")
 	elif (command == "exit"):
 		print("Exiting script...\n")
 		sys.exit()
@@ -95,6 +127,7 @@ def interpretFlag(a, i):
 	verifyFlag = verifyFlag or flagHelper(a, i, "--merge_data", "merge_data")
 	verifyFlag = verifyFlag or flagHelper(a, i, "--help", "help")
 	verifyFlag = verifyFlag or flagHelper(a, i, "--remove_data", "remove_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--sort_data", "sort_data")
 	if (not verifyFlag):
 		print ("Invalid flag: %s" % a[i])
 	interpretFlag(a, i+1)
@@ -103,6 +136,7 @@ def interpretFlag(a, i):
 if __name__ == "__main__":
 	bank = data.bank()
 	bank.importData(data.dataPath)
+
 	if (len(sys.argv) <= 1):
 		interactiveMode()
 	else:

@@ -140,6 +140,13 @@ class bank:
 		person = personNode(name, value, date)
 		writeLog("Adding new data...\n")
 		self.pushNode(person)
+	def sortData(self, input1, input2):
+		if (input1 == 1):
+			self.people = sortList(self.people, "name", ascending=(input2==1))
+		elif (input1 == 2):
+			self.people = sortList(self.people, "value", ascending=(input2==1))
+		elif (input1 == 3):
+			self.people = sortList(self.people, "date", ascending=(input2==1))
 	def removeData(self, number):
 		try:
 			person = self.people[int(number)]
@@ -205,6 +212,28 @@ def writeLog(message):
 def printLog():
 	with open(logPath, "r") as f:
 		print(f.read())
+
+#sortList(lst: personNode[], attribute: Key, ascending: boolean): personNode[]
+def sortList(lst, attribute, ascending=True):
+	tempLst = [None] * len(lst)
+	for x in lst:
+		currItem = x
+		index = 0
+		while (tempLst[index] != None):
+			if (attribute == "date"):
+				isMostRecent = currItem["date"] == getRecentDate(currItem["date"], tempLst[index]["date"])
+				if (isMostRecent if ascending else not isMostRecent):
+					tempItem = tempLst[index]
+					tempLst[index] = currItem
+					currItem = tempItem
+			else:
+				if ((currItem[attribute] < tempLst[index][attribute]) if ascending else (currItem[attribute] > tempLst[index][attribute])):
+					tempItem = tempLst[index]
+					tempLst[index] = currItem
+					currItem = tempItem
+			index += 1
+		tempLst[index] = currItem
+	return tempLst
 
 def getConfirmation():
 	answer = input("\tAre you sure? Y/N: ")
