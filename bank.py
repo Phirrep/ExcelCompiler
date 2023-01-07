@@ -19,6 +19,7 @@ def interpretCommand(command, input1=0, input2=0):
 		print("- import_sheets (--import_sheets): Imports multiple excel sheets, labels them based on the date they get assigned")
 		print("- merge_data (--merge_data): Merges 2 nodes together from a given list")
 		print("- remove_data (--remove_data): Removes a node from a given list")
+		print("- sort_data (--sort_data): Sorts the data in ascending or descending order")
 		print("- squash0 (--squash0): Removes all nodes with a value of 0")
 		print("- view_data (--view_data): Prints out the current data")
 		print("- view_log (--view_log): Prints out the log")
@@ -126,6 +127,7 @@ def interpretFlag(a, i):
 	verifyFlag = verifyFlag or flagHelper(a, i, "--merge_data", "merge_data")
 	verifyFlag = verifyFlag or flagHelper(a, i, "--help", "help")
 	verifyFlag = verifyFlag or flagHelper(a, i, "--remove_data", "remove_data")
+	verifyFlag = verifyFlag or flagHelper(a, i, "--sort_data", "sort_data")
 	if (not verifyFlag):
 		print ("Invalid flag: %s" % a[i])
 	interpretFlag(a, i+1)

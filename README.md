@@ -18,6 +18,7 @@ Here's a list of the current implemented commands and their respective flags:
 - import_sheet (--import_sheet): Imports an excel sheet given the file path and date
 - import_sheets (--import_sheets): Imports multiple excel sheets, labels them based on the date they get assigned
 - merge_data (--merge_data): Merges 2 nodes together from a given list
+- sort_data (--sort_data): Sorts the data in ascending or descending order
 - squash0 (--squash0): Removes all nodes with a value of 0
 - remove_data (--remove_data): Removes a node from a given list
 - view_data (--view_data): Prints out the current data
